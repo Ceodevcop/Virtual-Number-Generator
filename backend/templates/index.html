@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Virtual Number Generator</title>
+</head>
+<body>
+  <h1>Virtual Number Generator</h1>
+  <p>Your virtual number is:</p>
+  <div id="virtualNumber">Loading...</div>
+
+  <h2>Incoming Messages</h2>
+  <ul id="messages">
+    <li>No messages yet.</li>
+  </ul>
+
+  <script>
+    // Fetch virtual number
+    fetch("/get-number")
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("virtualNumber").innerText = data.virtual_number;
+      });
+
+    // Poll for incoming messages (placeholder)
+    setInterval(() => {
+      fetch("/receive-sms")
+        .then(response => response.json())
+        .then(data => {
+          const messagesList = document.getElementById("messages");
+          messagesList.innerHTML = `<li>From: ${data.from}, Message: ${data.message}</li>`;
+        });
+    }, 5000);
+  </script>
+</body>
+</html>
